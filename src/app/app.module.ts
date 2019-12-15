@@ -9,7 +9,6 @@ import { RegisterComponent } from './register/register.component';
 import {RouterModule, Routes} from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { BankAccountsComponent } from './bank-accounts/bank-accounts.component';
-// import {AuthGuard} from './_guards/auth.guard';
 
 
 const appRoutes: Routes = [

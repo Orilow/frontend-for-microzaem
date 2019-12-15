@@ -20,4 +20,12 @@ export class AppComponent {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
   }
+
+  tryGetBankAccount() {
+    if (!this.currentUser) {
+      this.router.navigate(['/login']);
+    } else {
+      this.router.navigate(['/bankAccounts']);
+    }
+  }
 }

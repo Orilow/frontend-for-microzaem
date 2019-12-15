@@ -11,7 +11,7 @@ export class AuthenticationService {
   public currentUser: Observable<string>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<string>(localStorage.getItem('currentUser'));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -21,11 +21,11 @@ export class AuthenticationService {
 
   login(username: string, password: string) {
 
-    return this.http.put<any>( AppSettings.RIGHT_LOGIN_URL, {username, password})
+    return this.http.post( AppSettings.LOGIN_URL, {username, password})
       .pipe(map (data => {
         const res = data.valueOf() as Response;
         if (res && res.status === 'OK') {
-          localStorage.setItem('currentUser', JSON.stringify(res.payload));
+          localStorage.setItem('currentUser', res.payload.toString());
           this.currentUserSubject.next(res.payload.valueOf().toString());
         } else if (res && res.status === 'INTERNAL_ERROR') {
           throw Error(res.message);
@@ -38,7 +38,7 @@ export class AuthenticationService {
   }
 
   register(firstName: string, lastName: string, username: string, password: string) {
-    return this.http.put(AppSettings.WRONG_REGISTER_URL, {firstName, lastName, username, password})
+    return this.http.post(AppSettings.REGISTER_URL, {firstName, lastName, username, password})
       .pipe(map(answer => {
         const res = answer.valueOf() as Response;
         if (res && res.status === 'INTERNAL_ERROR') {

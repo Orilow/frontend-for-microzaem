@@ -1,19 +1,30 @@
-
-
-<nav class="navbar" *ngIf="currentUser">
-  <ul class="nav nav-tabs">
-    <li role="presentation" class="active"><a>Bank Accounts</a></li>
-    <li role="presentation"><a (click)="logout()">Logout</a></li>
-  </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Microbank</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav w-100">
+      <div class="p-2">
+        <a class="nav-item nav-link" routerLink="">Home <span class="sr-only">(current)</span></a>
+      </div>
+      <div class="p-2">
+        <a class="nav-item nav-link" (click)="tryGetBankAccount()">Bank Accounts</a>
+      </div>
+      <div class="ml-auto p-2">
+        <a *ngIf="!currentUser; else loggedOut" class="nav-item nav-link float-right" routerLink="/login">Login</a>
+        <ng-template class="ml-auto p-2" #loggedOut>
+          <a class="nav-item nav-link float-right" (click)="logout()" routerLink="">Logout</a>
+        </ng-template>
+      </div>
+    </div>
+  </div>
 </nav>
 
-<div class="jumbotron">
+<div class="jumbotron jumbotron-fluid">
   <div class="container">
     <div class="row">
-      <div class="col-sm-6 offset-sm-3">
-
-        <router-outlet></router-outlet>
-      </div>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

@@ -11,13 +11,17 @@ import {Response} from '../_models';
 export class BankAccountsComponent implements OnInit {
   newAccountForm: FormGroup;
   submittedToAdd = false;
-  wantsToCreate = false;
   loadingToAdd = false;
   successfulToAdd = false;
+  wantsToCreate = false;
+  loadingAccounts = false;
   error: string;
+  accounts: object;
+
   constructor(private formBuilder: FormBuilder,
               private bankAccountsService: BankAccountsService) {
-    this.bankAccountsService.getAccounts();
+    this.accounts = [];
+    this.getAccounts();
   }
 
   ngOnInit() {
@@ -27,8 +31,20 @@ export class BankAccountsComponent implements OnInit {
     });
   }
 
+  getAccounts() {
+    this.loadingAccounts = true;
+    this.bankAccountsService.getAccounts().subscribe(data => {
+      this.accounts = data;
+      this.loadingAccounts = false;
+    }, error1 => {
+      this.error = error1.message;
+      this.loadingAccounts = false;
+    });
+  }
+
   get f() { return this.newAccountForm.controls; }
-  onSubmit() {
+
+  createBankAccount() {
     this.submittedToAdd = true;
 
     if (this.newAccountForm.invalid) {
